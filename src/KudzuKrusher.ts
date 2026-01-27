@@ -6,7 +6,6 @@ import Player from './Player.js';
 import ScoreItem from './ScoreItems/ScoreItem.js';
 import Flower from './ScoreItems/Flower.js';
 import MouseListener from './MouseListener.js';
-import ToggleButton from './ToggleButton.js';
 
 export default class KudzuKrusher extends Game {
   private canvas: HTMLCanvasElement;
@@ -16,10 +15,6 @@ export default class KudzuKrusher extends Game {
   private player: Player;
 
   private scoreItems: ScoreItem[] = [];
-
-  private glideButton: ToggleButton;
-
-  private glideState: boolean;
 
   private timeToNextItem: number;
 
@@ -45,9 +40,6 @@ export default class KudzuKrusher extends Game {
     for (let i: number = 0; i < 100; i++) {
       this.scoreItems.push(new Flower(maxX, maxY));
     }
-
-    this.glideButton = new ToggleButton(maxX - 120, maxY - 80);
-    this.glideState = false;
   }
 
   /**
@@ -56,16 +48,7 @@ export default class KudzuKrusher extends Game {
   public processInput(): void {
     this.player.move(this.mouseListener.getMousePosition().x, this.mouseListener.getMousePosition().y);
 
-    if (this.player.isCollidingWithItem(this.glideButton)) {
-      if (this.mouseListener.buttonPressed(MouseListener.BUTTON_LEFT)) {
-        console.log('glide button pressed');
-        this.glideState = !this.glideState;
-        this.glideButton.setGliding(this.glideState);
-      }
-    }
-
-    if (this.mouseListener.buttonPressed(MouseListener.BUTTON_LEFT)
-      || (this.glideState && this.mouseListener.isButtonDown(MouseListener.BUTTON_LEFT))) {
+    if (this.mouseListener.buttonPressed(MouseListener.BUTTON_LEFT)) {
       for (let i: number = this.scoreItems.length - 1; i >= 0; i--) {
         const item: ScoreItem = this.scoreItems[i];
         if (this.player.isCollidingWithItem(item)) {
@@ -131,7 +114,6 @@ export default class KudzuKrusher extends Game {
     }
     CanvasRenderer.writeText(this.canvas, `Score ${this.score}`, 40, 50, 'left', 'sans-serif', 30, '#040');
     CanvasRenderer.writeText(this.canvas, `Flowers Lost ${this.flowersLost}`, 40, 80, 'left', 'sans-serif', 26, '#040');
-    this.glideButton.render(this.canvas);
     this.player.render(this.canvas);
   }
 }
