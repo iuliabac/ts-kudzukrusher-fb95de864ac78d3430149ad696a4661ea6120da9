@@ -25,20 +25,21 @@ export default class KudzuKrusher extends Game {
   public constructor(canvas: HTMLCanvasElement) {
     super();
     this.canvas = canvas;
-    const maxX: number = window.innerWidth;
-    const maxY: number = window.innerHeight;
-
-    this.canvas.height = maxY;
-    this.canvas.width = maxX;
+    this.canvas.height = window.innerWidth;
+    this.canvas.width = window.innerHeight;
     this.mouseListener = new MouseListener(this.canvas);
+    this.canvas.style.cursor = 'none';
 
-    this.player = new Player(maxX, maxY);
+    this.player = new Player(window.innerWidth, window.innerHeight);
+
     this.timeToNextItem = 500;
+
     this.score = 0;
+
     this.flowersLost = 0;
 
     for (let i: number = 0; i < 100; i++) {
-      this.scoreItems.push(new Flower(maxX, maxY));
+      this.scoreItems.push(new Flower(this.canvas.height, this.canvas.width));
     }
   }
 
@@ -71,18 +72,18 @@ export default class KudzuKrusher extends Game {
    */
   public update(delta: number): boolean {
     this.timeToNextItem -= delta;
+
     if (this.timeToNextItem < 0) {
-      if (Math.random() > 0.85) {
+      const random: number = Math.random();
+
+      if (random > 0.85) {
         this.scoreItems.push(new Kudzu(this.canvas.width, this.canvas.height));
       } else {
         this.scoreItems.push(new Flower(this.canvas.width, this.canvas.height));
       }
+
       this.timeToNextItem = 250;
     }
-
-    this.scoreItems = this.scoreItems.sort(
-      (a: ScoreItem, b: ScoreItem) => a.getPosY() - b.getPosY(),
-    );
 
     for (const item of this.scoreItems) {
       item.update(delta);
@@ -108,12 +109,11 @@ export default class KudzuKrusher extends Game {
    */
   public render(): void {
     CanvasRenderer.clearCanvas(this.canvas);
+    
+    this.player.render(this.canvas);
+    this.scoreItems.forEach((item: ScoreItem) => item.render(this.canvas));
 
-    for (const item of this.scoreItems) {
-      item.render(this.canvas);
-    }
     CanvasRenderer.writeText(this.canvas, `Score ${this.score}`, 40, 50, 'left', 'sans-serif', 30, '#040');
     CanvasRenderer.writeText(this.canvas, `Flowers Lost ${this.flowersLost}`, 40, 80, 'left', 'sans-serif', 26, '#040');
-    this.player.render(this.canvas);
   }
 }

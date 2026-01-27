@@ -9,6 +9,7 @@ export default abstract class ScoreItem extends CanvasItem {
 
   public constructor(maxX: number, maxY: number) {
     super();
+    
     this.maxX = maxX;
     this.maxY = maxY;
 

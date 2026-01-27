@@ -6,7 +6,9 @@ export default class Flower extends ScoreItem {
 
   public constructor(maxX: number, maxY: number) {
     super(maxX, maxY);
+
     this.image = CanvasRenderer.loadNewImage('./assets/flower_0.png');
+    
     this.score = -1;
     this.timeToNextChange = 10000 + (Math.random() * 5000);
   }
