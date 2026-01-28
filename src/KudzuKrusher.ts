@@ -30,7 +30,7 @@ export default class KudzuKrusher extends Game {
     this.mouseListener = new MouseListener(this.canvas);
     this.canvas.style.cursor = 'none';
 
-    this.player = new Player(window.innerWidth, window.innerHeight);
+    this.player = new Player(this.canvas.height, this.canvas.width);
 
     this.timeToNextItem = 500;
 
@@ -109,7 +109,7 @@ export default class KudzuKrusher extends Game {
    */
   public render(): void {
     CanvasRenderer.clearCanvas(this.canvas);
-    
+
     this.player.render(this.canvas);
     this.scoreItems.forEach((item: ScoreItem) => item.render(this.canvas));
 
