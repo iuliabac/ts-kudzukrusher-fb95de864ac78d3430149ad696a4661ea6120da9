@@ -96,6 +96,7 @@ export default class KudzuKrusher extends Game {
       if (item instanceof Kudzu) {
         for (let j: number = this.scoreItems.length - 1; j >= 0; j--) {
           const item2: ScoreItem = this.scoreItems[j];
+          
           if (item2 instanceof Flower && item.isCollidingWithItem(item2)) {
             this.flowersLost += 1;
             this.scoreItems.splice(j, 1);
