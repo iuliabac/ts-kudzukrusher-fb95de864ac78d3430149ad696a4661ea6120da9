@@ -52,15 +52,16 @@ export default class KudzuKrusher extends Game {
     if (this.mouseListener.buttonPressed(MouseListener.BUTTON_LEFT)) {
       for (let i: number = this.scoreItems.length - 1; i >= 0; i--) {
         const item: ScoreItem = this.scoreItems[i];
+
         if (this.player.isCollidingWithItem(item)) {
           if (item instanceof Flower) {
             this.flowersLost += 1;
           }
+
           this.score += item.getScore();
           this.scoreItems.splice(i, 1);
         }
       }
-      this.score = Math.round(this.score);
     }
   }
 
@@ -91,6 +92,7 @@ export default class KudzuKrusher extends Game {
 
     for (let i: number = this.scoreItems.length - 1; i >= 0; i--) {
       const item: ScoreItem = this.scoreItems[i];
+
       if (item instanceof Kudzu) {
         for (let j: number = this.scoreItems.length - 1; j >= 0; j--) {
           const item2: ScoreItem = this.scoreItems[j];
