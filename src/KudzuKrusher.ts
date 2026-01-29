@@ -47,7 +47,10 @@ export default class KudzuKrusher extends Game {
    * Process all input. Called from the GameLoop.
    */
   public processInput(): void {
-    this.player.move(this.mouseListener.getMousePosition().x, this.mouseListener.getMousePosition().y);
+    const dirX: number = this.mouseListener.getMousePosition().x;
+    const dirY: number = this.mouseListener.getMousePosition().y;
+
+    this.player.move(dirX, dirY);
 
     if (this.mouseListener.buttonPressed(MouseListener.BUTTON_LEFT)) {
       for (let i: number = this.scoreItems.length - 1; i >= 0; i--) {
@@ -96,7 +99,7 @@ export default class KudzuKrusher extends Game {
       if (item instanceof Kudzu) {
         for (let j: number = this.scoreItems.length - 1; j >= 0; j--) {
           const item2: ScoreItem = this.scoreItems[j];
-          
+
           if (item2 instanceof Flower && item.isCollidingWithItem(item2)) {
             this.flowersLost += 1;
             this.scoreItems.splice(j, 1);
